@@ -10,6 +10,13 @@ h1 {
     font-weight: bold;
 }
 
+h2 {
+    margin-top: 1.7rem;
+    color: #212529;    
+    font-weight: bold;
+    font-size: x-large;
+}
+
 thead > tr > th {
     font-weight: bold;
 }
@@ -24,10 +31,10 @@ thead > tr > th {
 }
 
 .panel.panel-default {
-    background-color: #ececec;
+    /*background-color: #ececec;
     border-radius: 8px;
     border: 1px solid #d6d6d6;
-    padding: 20px;
+    padding: 20px;*/
 }
 
 body {
