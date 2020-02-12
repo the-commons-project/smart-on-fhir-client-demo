@@ -60,36 +60,30 @@ export default class Details extends Component {
     }
 
     renderDetails() {
-        /*<div>
-                <div class="panel panel-default">
-                    <div class="panel-body">A Basic Panel</div>
-                </div>             
-        </div>*/
-        let details = this.state.details;
-
+        let { name, gender, birthDate, address, telecom } = this.state.details;
         return (
             <div className="container">
                 <table className="table table-hover">
                     <tbody>
                         <tr>
                             <td>First Name</td>
-                            <td className="dark text-right"><b>{details.name[0].given[0]}</b></td>
+                            <td className="dark text-right"><b>{!!name[0].given ? name[0].given[0] : null}</b></td>
                         </tr>
                         <tr>
                             <td>Last Name</td>
-                            <td className="dark text-right"><b>{details.name[0].family}</b></td>
+                            <td className="dark text-right"><b>{!!name[0].family ? name[0].family : null}</b></td>
                         </tr> 
                         <tr>
                             <td>Prefix</td>
-                            <td className="dark text-right"><b>{!!details.name[0].prefix ? details.name[0].prefix[0] : ''}</b></td>
+                            <td className="dark text-right"><b>{!!name[0].prefix ? name[0].prefix[0] : null}</b></td>
                         </tr>
                         <tr>
                             <td>Gender</td>
-                            <td className="dark text-right"><b>{details.gender}</b></td>
+                            <td className="dark text-right"><b>{gender}</b></td>
                         </tr>
                         <tr>
                             <td>Birth Date</td>
-                            <td className="dark text-right"><b>{details.birthDate}</b></td>
+                            <td className="dark text-right"><b>{birthDate}</b></td>
                         </tr>                                                                                       
                     </tbody>                
                 </table>
@@ -98,23 +92,23 @@ export default class Details extends Component {
                     <tbody>
                         <tr>
                             <td>Country</td>
-                            <td className="dark text-right"><b>{details.address[0].country}</b></td>
+                            <td className="dark text-right"><b>{!!address ? address[0].country : null}</b></td>
                         </tr> 
                         <tr>
                             <td>State</td>
-                            <td className="dark text-right"><b>{details.address[0].state}</b></td>
+                            <td className="dark text-right"><b>{!!address ? address[0].state : null}</b></td>
                         </tr>
                         <tr>
                             <td>City</td>
-                            <td className="dark text-right"><b>{details.address[0].city}</b></td>
+                            <td className="dark text-right"><b>{!!address ? address[0].city : null}</b></td>
                         </tr>
                         <tr>
                             <td>Street</td>
-                            <td className="dark text-right"><b>{details.address[0].line[0]}</b></td>
+                            <td className="dark text-right"><b>{!!address ? address[0].line[0] : null}</b></td>
                         </tr>
                         <tr>
                             <td>Zip Code</td>
-                            <td className="dark text-right"><b>{details.address[0].postalCode}</b></td>
+                            <td className="dark text-right"><b>{!!address ? address[0].postalCode : null}</b></td>
                         </tr>                                                
                     </tbody>                
                 </table>
@@ -123,11 +117,11 @@ export default class Details extends Component {
                     <tbody>
                         <tr>
                             <td>Phone</td>
-                            <td className="dark text-right"><b>{!!details.telecom[0] ? details.telecom[0].value : ''}</b></td>
+                            <td className="dark text-right"><b>{!!telecom ? telecom[0].system != 'email' ? telecom[0].value  : null : null}</b></td>
                         </tr> 
                         <tr>
                             <td>E-mail</td>
-                            <td className="dark text-right"><b>{!!details.telecom[1] ? details.telecom[1].value : ''}</b></td>
+                            <td className="dark text-right"><b>{!!(telecom && telecom[1] && telecom[1].system == 'email') ? telecom[1].value : telecom[0].system == 'email' ? telecom[0].value : null}</b></td>
                         </tr>                                             
                     </tbody>                
                 </table>
@@ -143,7 +137,7 @@ export default class Details extends Component {
         );
     }    
 
-    render() {        
+    render() {
         return (
             <div>
                 <div>
