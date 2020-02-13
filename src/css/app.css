@@ -3,9 +3,48 @@ th, td {
     text-align: left;
 }
 
+h1 {
+    margin-top: 1.0rem;
+    margin-bottom: 1.6rem;
+    color: #0052cc;
+    font-weight: bold;
+}
+
+h2 {
+    margin-top: 1.7rem;
+    color: #212529;    
+    font-weight: bold;
+    font-size: x-large;
+}
+
+thead > tr > th {
+    font-weight: bold;
+}
+
+.table td {
+    color:#646464;
+    cursor: pointer;
+}
+
+.table td.dark {
+    color: #212529;
+}
+
+.panel.panel-default {
+    /*background-color: #ececec;
+    border-radius: 8px;
+    border: 1px solid #d6d6d6;
+    padding: 20px;*/
+}
+
 body {
     margin: 0;
+    /*background-color: #e2dede;*/
 }
+
+/*.container {
+    background-color: #ffffff;
+}*/
 
 #holder {
     display: none;
