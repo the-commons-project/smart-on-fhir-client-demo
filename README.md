@@ -7,8 +7,7 @@ https://nodejs.org/en/download/
 
 
 ## Install SmartOnFHIRClientDemo libs
-cd <src>/SmartOnFHIRClientDemo
-
+cd SmartOnFHIRClientDemo/
 `npm install`
 
 ## Development server
