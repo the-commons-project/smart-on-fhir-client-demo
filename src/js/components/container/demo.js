@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight, faUserFriends } from "@fortawesome/free-solid-svg-icons";
+// import { clientSMART as FHIR } from './services/fhir.client';
+import FHIR from 'fhirclient';
 
-import { baseUrl, PATH_DETAILS, REQUEST_DELAY } from "./../../constants";
+import { baseUrl, PATH_DETAILS, REQUEST_DELAY, grantType, assertion, clientId, scope } from "./../../constants";
 import { history } from "./../../helpers";
 
 import PatientService from "./../../services/patient.service";
+import AuthService from "./../../services/auth.service";
 
-export default class Details extends Component {
+export default class Demo extends Component {
     
     constructor(props) {
         super(props);
@@ -18,42 +21,23 @@ export default class Details extends Component {
         };
 
         this.patientService = new PatientService();
+        this.authService = new AuthService();
     }
 
-    componentDidMount() {
-        setTimeout(() => { this.getPatients() }, REQUEST_DELAY);                
+    async componentDidMount() {
+
+        this.authService.getToken()
+        .then( async (e) => {
+            console.log('token ->' + e + '<-');
+            await this.getPatients();
+        });           
     }
 
-    async getPatients() {            
+    async getPatients() {        
         await this.patientService
             .getPatients()
             .then(patients => this.setState({ patients }))           
             .catch(error => this.setState({ error }));
-                    
-            //this.setState({ error }, () => console.log("error ", this.state.error ) );
-        
-
-            /*window.FHIR.oauth2.init({
-                //iss: "https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSIsImIiOiJzbWFydC0xNjQyMDY4IiwiZSI6InNtYXJ0LVByYWN0aXRpb25lci03MTYxNDUwMiJ9/fhir",
-                iss: "https://r3.smarthealthit.org",
-                //fhirServiceUrl: "https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSIsImIiOiJzbWFydC0xNjQyMDY4IiwiZSI6InNtYXJ0LVByYWN0aXRpb25lci03MTYxNDUwMiJ9/fhir",
-                redirectUri: "#/demo/details", //redirectUri: `#${baseUrl}/details`,
-                clientId: "whatever",
-                //scope: "launch/patient offline_access openid fhirUser",            
-                //scope: "patient/Patient.read patient/Observation.read launch/patient online_access openid profile",
-                
-                scope:  "patient/Patient.read patient/Observation.read launch online_access openid profile",                          
-                //scope: "launch openid fhirUser patient/*.read",
-                //scope: "launch",
-                
-                // WARNING: completeInTarget=true is needed to make this work in the codesandbox
-                // frame. It is otherwise not needed if the target is not another frame or window
-                // but since the entire example works in a frame here, it gets confused without
-                // setting this!
-                //completeInTarget: true
-            })
-            .then(client => console.log("client ", client));
-            */
     }
 
     renderPatients() {
