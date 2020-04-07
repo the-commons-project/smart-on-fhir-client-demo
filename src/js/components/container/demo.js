@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight, faUserFriends } from "@fortawesome/free-solid-svg-icons";
-// import { clientSMART as FHIR } from './services/fhir.client';
-import FHIR from 'fhirclient';
 
-import { baseUrl, PATH_DETAILS, REQUEST_DELAY, grantType, assertion, clientId, scope } from "./../../constants";
+import { baseUrl, PATH_DETAILS, REQUEST_DELAY } from "./../../constants";
 import { history } from "./../../helpers";
 
 import PatientService from "./../../services/patient.service";
@@ -28,16 +26,11 @@ export default class Demo extends Component {
 
         this.authService.getToken()
         .then( async (e) => {
-            console.log('token ->' + e + '<-');
-            await this.getPatients();
-        });           
-    }
-
-    async getPatients() {        
-        await this.patientService
+            await this.patientService
             .getPatients()
             .then(patients => this.setState({ patients }))           
             .catch(error => this.setState({ error }));
+        });           
     }
 
     renderPatients() {
@@ -69,8 +62,6 @@ export default class Demo extends Component {
     }    
 
     render() {  
-        //${patient.resource.name[0].given[0]} ${patient.resource.name[0].family}
-        // && !Object.keys(this.state.error).length
         return (
             <div>
                 <div>                    

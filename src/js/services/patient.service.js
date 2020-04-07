@@ -1,61 +1,38 @@
-import cookie from "react-cookie";
+import { PROXY_URI, HG_API_URL, PATIENTS_ENDPOINT } from '../constants';
+import superagent from 'superagent';
+
 
 export default class PatientService {
 
-    buildOptions() {
-        access_token = cookie.load("access_token");
-        return {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + access_token,
-                'Access-Control-Allow-Origin': '*'
-            }
-        };
-    }
-
     getPatients() {
         return new Promise((resolve, reject) => {
-            fetch('https://sandbox.healthgorilla.com/fhir/Patient', this.buildOptions())
-            .then(response => {
-                console.log('response:' + JSON.stringify(response));
-                resolve(response.entry);
-            })
-            .catch(error => {
-                console.log('error:' + JSON.stringify(error))
-                reject(error);
+            const url = PROXY_URI + HG_API_URL + PATIENTS_ENDPOINT;
+            const access_token = localStorage.getItem('access_token');
+            superagent
+                .get(url)
+                .set('Content-Type', 'application/json')
+                .set('Authorization', 'Bearer ' + access_token)
+                .end((err, res) => {
+                    var patients = JSON.parse(res.text).entry;
+                    if (err) reject(err);
+                    resolve(patients);
+                });
             });
-        });
-    }
+        }
 
-    /* getPatients(client) {
+    getPatientById(patientId) {
         return new Promise((resolve, reject) => {
-            client.request("/fhir/Patient")
-                .then(response => resolve(response.entry))
-                .catch(error => reject(error));
-        });
-    } */
-
-    getPatientByFamilyName(familyName) {
-        return new Promise((resolve, reject) => {
-            fetch(`https://sandbox.healthgorilla.com/fhir/Patient?family=${familyName}`, this.buildOptions())
-            .then(response => {
-                console.log('response:' + JSON.stringify(response));
-                resolve(response);
-            })
-            .catch(error => {
-                console.log('error:' + JSON.stringify(error))
-                reject(error);
+            const url = PROXY_URI + HG_API_URL + PATIENTS_ENDPOINT + "/" + patientId;
+            const access_token = localStorage.getItem('access_token');
+            superagent
+                .get(url)
+                .set('Content-Type', 'application/json')
+                .set('Authorization', 'Bearer ' + access_token)
+                .end((err, res) => {
+                    var patients = JSON.parse(res.text);
+                    if (err) reject(err);
+                    resolve(patients);
+                });
             });
-        });
     }
-
-/* 
-    getPatientByFamilyName(client, familyName) {
-        return new Promise((resolve, reject) => {
-            client.request(`/fhir/Patient?family=${familyName}`)
-                .then(response => resolve(response))
-                .catch(error => reject(error));
-        });
-    } */
 }

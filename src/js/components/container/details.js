@@ -31,32 +31,9 @@ export default class Details extends Component {
     
     async getPatientDetails(patientId) {
         await this.patientService
-            .getPatient(patientId)
+            .getPatientById(patientId)
             .then(details => this.setState({ details }))           
-            .catch(error => this.setState({ error }));
-        /*FHIR.request("Patient/d0d0cde0-4b21-42f6-9c1e-bfa447d72059")
-            .then(response => {
-                console.log("response ", response);
-            })
-            .catch(error => {
-                console.log(error);
-            });*/
-        /*
-        window.FHIR.oauth2
-            .ready()
-            .then(client => {
-                console.log("client ", client)
-                //client.request(`Patient/${client.patient.id}`)
-                //client.request(`Patient/APkn1cp0uzqhk3Ci`)
-                client.request(`Patient`)
-            })
-            .then(response => {
-                console.log("response ", response);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-        */            
+            .catch(error => this.setState({ error }));       
     }
 
     renderDetails() {
